@@ -42,17 +42,15 @@ model Cliente {
 }
 
 model Servico {
-  id           String               @id @default(uuid()) @map("_id")
-  servico      String
-  ativo        Boolean              @default(false)
-  ordem        Int
+  id        String    @id @default(uuid()) @map("_id")
+  servico   String
+  ordem     Int       // Prioridade do serviço
 
-  ordemItens   OrdemServicoItem[]  
-
-  createdAt    DateTime             @default(now())
-  updatedAt    DateTime             @updatedAt
-  deletedAt    DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 }
+
 
 model Arquivo {
   id         String    @id @default(uuid()) @map("_id")
@@ -136,11 +134,12 @@ model RecSenhaToken {
 
 model OrdemServico {
   id              String              @id @default(uuid())
-  numero          Int                 @default(autoincrement()) // Campo auto-incremento
+  numero          Int                 @default(autoincrement())
   cliente         Cliente             @relation(fields: [clienteId], references: [id])
   clienteId       String
   dataInicio      DateTime            @default(now())
   dataFim         DateTime?
+  prazo           DateTime?           // Novo campo para prazo
   placa           String
   tipoVeiculo     String
   subtipoVeiculo  String
@@ -151,20 +150,21 @@ model OrdemServico {
 }
 
 
+
 model OrdemServicoItem {
-  id               String         @id @default(uuid())
-  ordemServico     OrdemServico   @relation(fields: [ordemServicoId], references: [id])
-  ordemServicoId   String
-  servico          Servico        @relation(fields: [servicoId], references: [id])
-  servicoId        String
-  realizado        Boolean        @default(false)
-  ordemPrioridade  Int
-  inicioEtapa      DateTime?      // Data/hora de início da etapa
-  fimEtapa         DateTime?      // Data/hora de término da etapa
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  deletedAt        DateTime?
+  id              String    @id @default(uuid())
+  ordemServicoId  String    @map("_ordemServicoId")
+  ordemServico    OrdemServico @relation(fields: [ordemServicoId], references: [id])
+  nomeServico     String    // Nome do serviço na época da criação
+  prioridade      Int       // Prioridade do serviço na época
+  realizado       Boolean   @default(false)
+  dataInicio      DateTime? // Quando o serviço foi iniciado
+  dataFim         DateTime? // Quando o serviço foi concluído
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
 }
+
 
 
 model Pedido {

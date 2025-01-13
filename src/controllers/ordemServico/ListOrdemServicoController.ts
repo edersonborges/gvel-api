@@ -6,12 +6,20 @@ class ListOrdemServicoController {
 
   async handle(req: Request, res: Response) {
     try {
-      const { numero } = req.query;
-      const parsedNumero = numero ? parseInt(numero as string, 10) : undefined;
-      const result = await this.listOrdemServicoService.execute(parsedNumero);
+      const { numero, placa, cnpj } = req.query;
+
+      const filters = {
+        numeroOrdem: numero ? parseInt(numero as string, 10) : undefined,
+        placa: placa as string | undefined,
+        cnpj: cnpj as string | undefined,
+      };
+
+      const result = await this.listOrdemServicoService.execute(filters);
+
       if (result.error) {
         return res.status(400).json({ error: result.error });
       }
+
       return res.json(result);
     } catch (error) {
       console.error('Error in ListOrdemServicoController:', error);

@@ -2,1570 +2,432 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "REST API",
-    "description": ""
+    "title": "REST API Completa",
+    "description": "Documentação de todas as rotas da API."
   },
   "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "authorization",
+      "in": "header"
+    }
+  },
   "paths": {
     "/user/cadastrar": {
       "post": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
+        "summary": "Cadastrar usuário",
+        "description": "Cria um novo usuário.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados do usuário",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": { "type": "string" },
+                "email": { "type": "string" },
+                "telefone": { "type": "string" },
+                "senha": { "type": "string" },
+                "cpf": { "type": "string" }
+              }
+            }
           }
+        ],
+        "responses": {
+          "200": { "description": "Usuário cadastrado com sucesso" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/login": {
       "post": {
-        "description": "",
+        "summary": "Autenticar usuário",
+        "description": "Realiza login com email e senha.",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "description": "Credenciais do usuário",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "telefone": {
-                  "example": "any"
-                },
-                "senha": {
-                  "example": "any"
-                }
+                "email": { "type": "string" },
+                "senha": { "type": "string" }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Autenticação bem-sucedida" },
+          "400": { "description": "Credenciais inválidas" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/user/delete": {
       "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
+        "summary": "Deletar usuário",
+        "description": "Realiza deleção lógica do usuário.",
+        "security": [{ "Bearer": [] }],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Usuário deletado com sucesso" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/user/update/{id}": {
       "put": {
-        "description": "",
+        "summary": "Atualizar usuário",
+        "description": "Atualiza os dados do usuário.",
+        "security": [{ "Bearer": [] }],
         "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
           {
-            "name": "id",
-            "in": "path",
+            "name": "body",
+            "in": "body",
+            "description": "Novos dados do usuário",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": { "type": "string" },
+                "telefone": { "type": "string" }
+              }
+            }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Usuário atualizado com sucesso" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/logout": {
       "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
+        "summary": "Logout",
+        "description": "Encerra a sessão do usuário.",
+        "security": [{ "Bearer": [] }],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Logout realizado com sucesso" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/user/dados": {
       "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
+        "summary": "Obter dados do usuário",
+        "description": "Retorna os dados do usuário autenticado.",
+        "security": [{ "Bearer": [] }],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/media": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "alunoId",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "colaboradorId",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "tipo",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Dados do usuário retornados" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/upload-media": {
       "post": {
-        "description": "",
+        "summary": "Upload de mídia",
+        "description": "Faz upload de um arquivo de mídia.",
+        "security": [{ "Bearer": [] }],
+        "consumes": ["multipart/form-data"],
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "example": "any"
-                }
-              }
-            }
+            "name": "media",
+            "in": "formData",
+            "description": "Arquivo de mídia",
+            "required": true,
+            "type": "file"
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/dashboard": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "startDate",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "endDate",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Upload realizado com sucesso" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/password/codigo": {
       "post": {
-        "description": "",
+        "summary": "Gerar código de recuperação de senha",
+        "description": "Envia um código de recuperação para o email fornecido.",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "description": "Email do usuário",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "email": {
-                  "example": "any"
-                }
+                "email": { "type": "string" }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Código gerado e enviado" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/password/verificar/{userId}": {
       "post": {
-        "description": "",
+        "summary": "Verificar código de recuperação",
+        "description": "Verifica o código de recuperação recebido pelo usuário.",
         "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
+          { "name": "userId", "in": "path", "required": true, "type": "string" },
           {
             "name": "body",
             "in": "body",
+            "description": "Código de recuperação",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "codigo": {
-                  "example": "any"
-                }
+                "codigo": { "type": "string" }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Código verificado" },
+          "400": { "description": "Código inválido ou já utilizado" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/password/change/{id}": {
       "put": {
-        "description": "",
+        "summary": "Alterar senha",
+        "description": "Atualiza a senha do usuário.",
         "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
           {
-            "name": "id",
-            "in": "path",
+            "name": "body",
+            "in": "body",
+            "description": "Novas senhas",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pswNova": { "type": "string" },
+                "pswConfirm": { "type": "string" }
+              }
+            }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Senha alterada com sucesso" },
+          "400": { "description": "Senhas não coincidem ou erro de validação" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
-    "/tarefas/criar": {
+    "/cliente/cadastrar": {
       "post": {
-        "description": "",
+        "summary": "Cadastrar cliente",
+        "description": "Cria um novo cliente.",
+        "security": [{ "Bearer": [] }],
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
           {
             "name": "body",
             "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "assunto": {
-                  "example": "any"
-                },
-                "responsavel": {
-                  "example": "any"
-                },
-                "tipo": {
-                  "example": "any"
-                },
-                "data_agendamento": {
-                  "example": "any"
-                },
-                "horario": {
-                  "example": "any"
-                },
-                "concluida": {
-                  "example": "any"
-                },
-                "negociacaoId": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/tarefas/listar": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/tarefas/editar/{id}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
+            "description": "Dados do cliente",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "assunto": {
-                  "example": "any"
-                },
-                "responsavel": {
-                  "example": "any"
-                },
-                "tipo": {
-                  "example": "any"
-                },
-                "data_agendamento": {
-                  "example": "any"
-                },
-                "horario": {
-                  "example": "any"
-                },
-                "concluida": {
-                  "example": "any"
-                }
+                "nome": { "type": "string" },
+                "email": { "type": "string" },
+                "telefone": { "type": "string" },
+                "cnpj": { "type": "string" },
+                "tipo": { "type": "integer" }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/tarefas/deletar/{id}": {
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/negociacoes/criar": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome_cliente": {
-                  "example": "any"
-                },
-                "nome_negociacao": {
-                  "example": "any"
-                },
-                "etapa": {
-                  "example": "any"
-                },
-                "status": {
-                  "example": "any"
-                },
-                "primeiro_pgmt": {
-                  "example": "any"
-                },
-                "periodo": {
-                  "example": "any"
-                },
-                "ultimo_contato": {
-                  "example": "any"
-                },
-                "valor_negociado": {
-                  "example": "any"
-                },
-                "concluida": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/negociacoes/listar": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/negociacoes/editar/{id}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome_cliente": {
-                  "example": "any"
-                },
-                "nome_negociacao": {
-                  "example": "any"
-                },
-                "etapa": {
-                  "example": "any"
-                },
-                "status": {
-                  "example": "any"
-                },
-                "primeiro_pgmt": {
-                  "example": "any"
-                },
-                "periodo": {
-                  "example": "any"
-                },
-                "ultimo_contato": {
-                  "example": "any"
-                },
-                "valor_negociado": {
-                  "example": "any"
-                },
-                "concluida": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/negociacoes/deletar/{id}": {
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/cliente/pf/criar": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "example": "any"
-                },
-                "cpf": {
-                  "example": "any"
-                },
-                "data_nasc": {
-                  "example": "any"
-                },
-                "sexo": {
-                  "example": "any"
-                },
-                "estado_civil": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "telefone": {
-                  "example": "any"
-                },
-                "profissao": {
-                  "example": "any"
-                },
-                "renda": {
-                  "example": "any"
-                },
-                "fonte_renda": {
-                  "example": "any"
-                },
-                "estado_saude": {
-                  "example": "any"
-                },
-                "historico_med": {
-                  "example": "any"
-                },
-                "habitos": {
-                  "example": "any"
-                },
-                "beneficiarios": {
-                  "example": "any"
-                },
-                "endereco": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Cliente criado com sucesso" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/cliente/listar": {
       "get": {
-        "description": "",
+        "summary": "Listar clientes",
+        "description": "Retorna a lista de clientes.",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": { "description": "Lista de clientes retornada" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/cliente/delete/{id}": {
+      "delete": {
+        "summary": "Deletar cliente",
+        "description": "Remove lógica de um cliente.",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "Cliente deletado com sucesso" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/cliente/update/{id}": {
+      "put": {
+        "summary": "Atualizar cliente",
+        "description": "Atualiza dados de um cliente.",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Novos dados do cliente",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": { "type": "string" },
+                "email": { "type": "string" },
+                "telefone": { "type": "string" },
+                "cnpj": { "type": "string" },
+                "tipo": { "type": "integer" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Cliente atualizado com sucesso" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/servicos/criar": {
+      "get": {
+        "summary": "Criar serviços",
+        "description": "Cria múltiplos serviços, deletando anteriores.",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": { "description": "Serviços criados com sucesso" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/servicos/listar": {
+      "get": {
+        "summary": "Listar serviços",
+        "description": "Retorna serviços ordenados por prioridade.",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": { "description": "Lista de serviços retornada" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/ordem-servico/criar": {
+      "post": {
+        "summary": "Criar ordem de serviço",
+        "description": "Cria uma nova ordem de serviço com prazo.",
+        "security": [{ "Bearer": [] }],
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
+            "name": "body",
+            "in": "body",
+            "description": "Dados da ordem de serviço",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "clienteId": { "type": "string" },
+                "placa": { "type": "string" },
+                "tipoVeiculo": { "type": "string" },
+                "subtipoVeiculo": { "type": "string" },
+                "prazo": { "type": "string", "format": "date-time" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Ordem de serviço criada com sucesso" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
+        }
+      }
+    },
+    "/ordem-servico/listar": {
+      "get": {
+        "summary": "Listar ordens de serviço",
+        "description": "Lista ordens de serviço, opcionalmente filtrando pelo número.",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
           {
-            "name": "tipo",
+            "name": "numero",
             "in": "query",
-            "type": "string"
+            "description": "Número da ordem de serviço para filtrar",
+            "type": "integer"
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Lista de ordens de serviço retornada" },
+          "401": { "description": "Unauthorized" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
-    "/cliente/pf/editar/{id}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "example": "any"
-                },
-                "cpf": {
-                  "example": "any"
-                },
-                "data_nasc": {
-                  "example": "any"
-                },
-                "sexo": {
-                  "example": "any"
-                },
-                "estado_civil": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "telefone": {
-                  "example": "any"
-                },
-                "profissao": {
-                  "example": "any"
-                },
-                "renda": {
-                  "example": "any"
-                },
-                "fonte_renda": {
-                  "example": "any"
-                },
-                "estado_saude": {
-                  "example": "any"
-                },
-                "historico_med": {
-                  "example": "any"
-                },
-                "habitos": {
-                  "example": "any"
-                },
-                "beneficiarios": {
-                  "example": "any"
-                },
-                "endereco": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/cliente/pf/deletar/{id}": {
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/cliente/pj/criar": {
+    "/ordem-servico/etapa": {
       "post": {
-        "description": "",
+        "summary": "Pular etapa de ordem de serviço",
+        "description": "Avança para a próxima etapa ou finaliza serviços da ordem.",
+        "security": [{ "Bearer": [] }],
         "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
           {
             "name": "body",
             "in": "body",
+            "description": "Dados para pular a etapa",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "nome": {
-                  "example": "any"
-                },
-                "nome_resp": {
-                  "example": "any"
-                },
-                "nome_fantasia": {
-                  "example": "any"
-                },
-                "cnpj": {
-                  "example": "any"
-                },
-                "telefone": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "data_abert": {
-                  "example": "any"
-                },
-                "estipulantes": {
-                  "example": "any"
-                },
-                "endereco": {
-                  "example": "any"
-                },
-                "contrato_social": {
-                  "example": "any"
-                },
-                "outros_doc": {
-                  "example": "any"
+                "ordemServicoId": { "type": "string" },
+                "acao": {
+                  "type": "string",
+                  "enum": ["proximo", "finalizado"]
                 }
               }
             }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/cliente/pj/editar/{id}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "example": "any"
-                },
-                "nome_resp": {
-                  "example": "any"
-                },
-                "nome_fantasia": {
-                  "example": "any"
-                },
-                "cnpj": {
-                  "example": "any"
-                },
-                "telefone": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "data_abert": {
-                  "example": "any"
-                },
-                "estipulantes": {
-                  "example": "any"
-                },
-                "endereco": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/cliente/pj/deletar/{id}": {
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/seguradoras/criar": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "example": "any"
-                },
-                "cnpj": {
-                  "example": "any"
-                },
-                "escritorio": {
-                  "example": "any"
-                },
-                "nome_gestor": {
-                  "example": "any"
-                },
-                "telefone_gestor": {
-                  "example": "any"
-                },
-                "email_gestor": {
-                  "example": "any"
-                },
-                "comissao": {
-                  "example": "any"
-                },
-                "agenciamento": {
-                  "example": "any"
-                },
-                "tipo_seguro": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/seguradoras/listar": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/seguradoras/editar/{id}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "example": "any"
-                },
-                "cnpj": {
-                  "example": "any"
-                },
-                "escritorio": {
-                  "example": "any"
-                },
-                "nome_gestor": {
-                  "example": "any"
-                },
-                "telefone_gestor": {
-                  "example": "any"
-                },
-                "email_gestor": {
-                  "example": "any"
-                },
-                "comissao": {
-                  "example": "any"
-                },
-                "agenciamento": {
-                  "example": "any"
-                },
-                "tipo_seguro": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/seguradoras/deletar/{id}": {
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/contato-negociacao/criar": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "negociacaoId": {
-                  "example": "any"
-                },
-                "nome": {
-                  "example": "any"
-                },
-                "telefone": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "data_nasc": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/proposta-negociacao/criar": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome_arq": {
-                  "example": "any"
-                },
-                "seguradora": {
-                  "example": "any"
-                },
-                "premio": {
-                  "example": "any"
-                },
-                "comissao_percentual": {
-                  "example": "any"
-                },
-                "comissao_valor": {
-                  "example": "any"
-                },
-                "negociacaoId": {
-                  "example": "any"
-                },
-                "images": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/contato-negociacao/deletar/{id}": {
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/proposta-negociacao/deletar/{id}": {
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/contato-negociacao/editar/{id}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "example": "any"
-                },
-                "telefone": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "data_nasc": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/proposta-negociacao/editar/{id}": {
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome_arq": {
-                  "example": "any"
-                },
-                "seguradora": {
-                  "example": "any"
-                },
-                "premio": {
-                  "example": "any"
-                },
-                "comissao_percentual": {
-                  "example": "any"
-                },
-                "comissao_valor": {
-                  "example": "any"
-                },
-                "images": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/proposta-negociacao/listar": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/notificacoes/listar/{userId}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "Etapa atualizada com sucesso" },
+          "400": { "description": "Bad Request" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     }

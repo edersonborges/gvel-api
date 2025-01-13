@@ -1,67 +1,50 @@
 import prismaClient from '../../prisma';
 
-interface PularEtapaInput {
-  ordemServicoId: string;
-  acao: 'proximo' | 'finalizado';
-}
-
 class PularEtapaService {
-  async execute(input: PularEtapaInput) {
-    const { ordemServicoId, acao } = input;
+  async execute(ordemServicoId: string, acao: string) {
+    // Validação dos parâmetros
+    if (!ordemServicoId || !acao) {
+      return { error: 'Ordem de serviço ID e ação são obrigatórios' };
+    }
+
     try {
-      // Obter todos os itens da ordem de serviço ordenados pela prioridade
-      const itens = await prismaClient.ordemServicoItem.findMany({
-        where: { ordemServicoId },
-        orderBy: { ordemPrioridade: 'asc' },
+      const ordemServico = await prismaClient.ordemServico.findUnique({
+        where: { id: ordemServicoId },
+        include: { servicos: true },
       });
 
-      if (!itens.length) {
-        return { error: 'Nenhuma etapa encontrada para esta ordem de serviço' };
+      if (!ordemServico) {
+        return { error: 'Ordem de serviço não encontrada' };
       }
 
-      // Lógica simplificada para "pular etapa"
+      const itens = ordemServico.servicos;
+
+      // Lógica para "pular etapa" ou finalizar ordem
       if (acao === 'proximo') {
-        // Encontrar a primeira etapa não realizada
-        const etapaAtual = itens.find(item => !item.realizado);
-        if (etapaAtual) {
-          // Marcar a etapa atual como realizada e registrar tempo de fim
-          await prismaClient.ordemServicoItem.update({
-            where: { id: etapaAtual.id },
-            data: {
-              realizado: true,
-              fimEtapa: new Date(),
-            },
-          });
-          // Se houver próxima etapa, iniciar ela
-          const proximaEtapa = itens.find(item => !item.realizado && item.ordemPrioridade > etapaAtual.ordemPrioridade);
-          if (proximaEtapa) {
-            await prismaClient.ordemServicoItem.update({
-              where: { id: proximaEtapa.id },
-              data: {
-                inicioEtapa: new Date(),
-              },
-            });
-          }
+        const etapaAtual = itens.find((item) => !item.realizado);
+        if (!etapaAtual) {
+          return { error: 'Nenhuma etapa pendente para avançar' };
         }
-      } else if (acao === 'finalizado') {
-        // Marcar todas as etapas como realizadas e definir fimEtapa se não estiver setado
-        for (const item of itens) {
-          if (!item.realizado) {
-            await prismaClient.ordemServicoItem.update({
-              where: { id: item.id },
-              data: {
-                realizado: true,
-                fimEtapa: new Date(),
-                inicioEtapa: item.inicioEtapa || new Date(),
-              },
-            });
-          }
-        }
+
+        await prismaClient.ordemServicoItem.update({
+          where: { id: etapaAtual.id },
+          data: { realizado: true, dataFim: new Date() },
+        });
+
+        return { message: 'Etapa avançada com sucesso' };
+      } else if (acao === 'finalizar') {
+        await prismaClient.ordemServicoItem.updateMany({
+          where: { ordemServicoId },
+          data: { realizado: true, dataFim: new Date() },
+        });
+
+        return { message: 'Ordem de serviço finalizada com sucesso' };
       }
-      return { message: 'Etapa(s) atualizada(s) com sucesso' };
+
+      return { error: 'Ação inválida' };
     } catch (error) {
       console.error('Erro ao pular etapa:', error);
-      return { error: 'Falha ao atualizar etapa' };
+      return { error: 'Erro interno do servidor' };
     }
   }
 }
