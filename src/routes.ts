@@ -12,6 +12,10 @@ import {
     uploadMediaController,
     gerarCodPswController,
     verificarCodigoController,
+    createClientController,
+    listClientController,
+    deleteClientController,
+    updateClientController,
 
 } from './controllers';
 
@@ -31,6 +35,10 @@ const initializeRoutes = (): Router => {
     router.post('/password/codigo', gerarCodPswController.handle.bind(gerarCodPswController));
     router.post('/password/verificar/:userId', verificarCodigoController.handle.bind(verificarCodigoController));
     router.put('/password/change/:id', changePswController.handle.bind(changePswController));
+    router.post('/cliente/cadastrar', isAuthenticated, createClientController.handle.bind(createClientController));
+    router.get('/cliente/listar', isAuthenticated, listClientController.handle.bind(listClientController));
+    router.delete('/cliente/delete/:id', isAuthenticated, deleteClientController.handle.bind(deleteClientController));
+    router.put('/cliente/update/:id', isAuthenticated, updateClientController.handle.bind(updateClientController));
 
     return router;
 };
