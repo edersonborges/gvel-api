@@ -4,15 +4,15 @@ import { sign } from 'jsonwebtoken';
 import { JWT_SECRET } from '../../configs/config';
 
 interface AuthRequest {
-  telefone: string;
+  email: string;
   senha: string;
 }
 
 class AuthUserService {
-  async execute({ telefone, senha }: AuthRequest) {
+  async execute({ email, senha }: AuthRequest) {
     const usuario = await prismaClient.usuario.findFirst({
       where: {
-        telefone,
+        email,
         deletedAt: null
       }
     });
@@ -34,7 +34,7 @@ class AuthUserService {
     const token = sign(
       {
         nome: usuario.nome,
-        telefone: usuario.telefone,
+        email: usuario.email, // Incluindo email no payload
       },
       jwtSecret,
       {
@@ -47,7 +47,7 @@ class AuthUserService {
       message: {
         id: usuario.id,
         nome: usuario.nome,
-        telefone: usuario.telefone,
+        email: usuario.email, // Retornar email em vez de telefone
         token: token,
       }
     };

@@ -6,10 +6,15 @@ class ListarUserDadosService {
             const user = await prismaClient.usuario.findUnique({
                 where: { id: userId },
             });
+
+            if (!user) {
+                return { message: 'Usuário não encontrado' };
+            }
+
             return { message: user };
         } catch (error) {
             console.error('Error in ListarUserDadosService:', error);
-            return 'Failed to find ListarUserDados information';
+            return { error: 'Falha ao buscar dados do usuário' };
         }
     }
 }

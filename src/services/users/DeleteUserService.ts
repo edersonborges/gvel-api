@@ -9,10 +9,11 @@ class DeleteUserService {
                 where: { id: userId },
                 data: { deletedAt: data },
             });
-            return { message: 'Usuario deletado com sucesso' };
+
+            return { message: 'Usuário deletado com sucesso' };
         } catch (error) {
             console.error('Error in DeleteUserService:', error);
-            return 'Failed to find DeleteUser information';
+            return { error: 'Falha ao deletar usuário' };
         }
     }
 }

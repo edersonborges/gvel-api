@@ -10,15 +10,14 @@ class AuthUserController {
   }
 
   async handle(req: Request, res: Response) {
-    const { telefone, senha } = req.body;
+    const { email, senha } = req.body;  // Alterado de telefone para email
 
     try {
-      const result = await this.authService.execute({ telefone, senha });
+      const result = await this.authService.execute({ email, senha });
 
       if (typeof result === 'string') {
-                return res.status(400).json({ error: result });
-            }
-            
+        return res.status(400).json({ error: result });
+      }
 
       const message = serializeBigInt(result);
       return res.json({ success: true, message });

@@ -2,14 +2,13 @@ import { validate } from 'class-validator';
 import { hash } from 'bcryptjs';
 import prismaClient from '../../prisma';
 import { CreateUserDTO } from '../../DTO/CreateUserDTO';
-import { convertToDateTime } from '../../utils/convertToDateTime';
 
 interface CreateUserInput {
     nome: string;
     senha: string;
     email: string;
-    dataNasc: string;
     telefone: string;
+    cpf: string;
 }
 
 class CreateUserService {
@@ -27,7 +26,19 @@ class CreateUserService {
                 return errorMessage;
             }
 
-            const { nome, email, senha, telefone, dataNasc } = createUserInput;
+            const { nome, email, senha, telefone, cpf } = createUserInput;
+
+            // Verificando se existe um convite válido para o email fornecido
+            const convite = await prismaClient.convite.findFirst({
+                where: {
+                    email: email,
+                    utilizado: false,  // Convite ainda não utilizado
+                }
+            });
+
+            if (!convite) {
+                return 'Email não possui um convite válido ou já foi utilizado.';
+            }
 
             // Verificando se o telefone já existe
             const existingUserByTelefone = await prismaClient.usuario.findFirst({ where: { telefone } });
@@ -35,13 +46,17 @@ class CreateUserService {
                 return 'O telefone informado já está em uso por outro usuário.';
             }
 
-            // Verificando se o email já existe
+            // Verificando se o email já existe na tabela de usuários
             const existingUserByEmail = await prismaClient.usuario.findFirst({ where: { email } });
             if (existingUserByEmail) {
                 return 'O email informado já está em uso por outro usuário.';
             }
 
-            const data_nasc = await convertToDateTime(dataNasc);
+            // Verificando se o cpf já existe
+            const existingUserByCpf = await prismaClient.usuario.findFirst({ where: { cpf } });
+            if (existingUserByCpf) {
+                return 'O CPF informado já está em uso por outro usuário.';
+            }
 
             // Hash da senha
             const hashedPassword = await hash(senha, 10);
@@ -50,17 +65,23 @@ class CreateUserService {
             const user = await prismaClient.usuario.create({
                 data: {
                     nome,
-                    email,  // Incluindo o email no objeto de criação
+                    email,
                     senha: hashedPassword,
-                    data_nasc,
                     telefone,
+                    cpf,
                 },
+            });
+
+            // Após criar o usuário, marcar o convite como utilizado
+            await prismaClient.convite.update({
+                where: { id: convite.id },
+                data: { utilizado: true }
             });
 
             return { message: user };
         } catch (error) {
-            console.error('Falha ao criar usuario:', error);
-            return 'Falha ao criar usuario';
+            console.error('Falha ao criar usuário:', error);
+            return 'Falha ao criar usuário';
         }
     }
 }

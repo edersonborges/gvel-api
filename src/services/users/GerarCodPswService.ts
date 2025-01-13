@@ -14,21 +14,22 @@ class GerarCodPswService {
             }
 
             // Gerar código de 4 dígitos
-            const codigo = Math.floor(1000 + Math.random() * 9000);
+            const codigo = Math.floor(1000 + Math.random() * 9000).toString();
 
             // Enviar o código por e-mail
             const emailSubject = 'Código de Recuperação de Senha';
             const emailHtml = `<p>Seu código de recuperação de senha é: <strong>${codigo}</strong></p>`;
 
+            // Descomente a linha abaixo para enviar realmente o e-mail
             // await sendEmail(user.email, emailSubject, emailHtml);
-            console.log(codigo);
+            console.log(`Código gerado para ${user.email}: ${codigo}`);
 
-            // Armazenar o código no banco de dados
-            await prismaClient.rec_senha.create({
+            // Armazenar o código no banco de dados usando a tabela RecSenhaToken
+            await prismaClient.recSenhaToken.create({
                 data: {
-                    userId: user.id,
-                    codigo,
-                    usado: false,
+                    email: user.email,
+                    token: codigo,
+                    isUsed: false,
                 },
             });
 
