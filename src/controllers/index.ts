@@ -14,6 +14,10 @@ import { DeleteClientController } from './cliente/DeleteClientController';
 import { UpdateClientController } from './cliente/UpdateClientController';
 import { CreateServicesController } from './servicos/CreateServicesController';
 import { ListServicesController } from './servicos/ListServicesController';
+import { CreateOrdemServicoController } from './ordemServico/CreateOrdemServicoController';
+import { ListOrdemServicoController } from './ordemServico/ListOrdemServicoController';
+import { PularEtapaController } from './ordemServico/PularEtapaController';
+
 
 
 
@@ -31,8 +35,12 @@ import { CreateClientService } from '../services/cliente/CreateClientService';
 import { ListClientService } from '../services/cliente/ListClientService';
 import { DeleteClientService } from '../services/cliente/DeleteClientService';
 import { UpdateClientService } from '../services/cliente/UpdateClientService';
-import { CreateServicesService } from '../services/servicos/CreateServicesService'; 
+import { CreateServicesService } from '../services/servicos/CreateServicesService';
 import { ListServicesService } from '../services/servicos/ListServicesService';
+import { CreateOrdemServicoService } from '../services/ordemServico/CreateOrdemServicoService';
+import { ListOrdemServicoService } from '../services/ordemServico/ListOrdemServicoService';
+import { PularEtapaService } from '../services/ordemServico/PularEtapaService';
+
 
 
 
@@ -52,6 +60,10 @@ const deleteClientService = new DeleteClientService();
 const updateClientService = new UpdateClientService();
 const createServicesService = new CreateServicesService();
 const listServicesService = new ListServicesService();
+const createOrdemServicoService = new CreateOrdemServicoService();
+const listOrdemServicoService = new ListOrdemServicoService();
+const pularEtapaService = new PularEtapaService();
+
 
 
 
@@ -71,3 +83,6 @@ export const deleteClientController = new DeleteClientController(deleteClientSer
 export const updateClientController = new UpdateClientController(updateClientService);
 export const createServicesController = new CreateServicesController(createServicesService);
 export const listServicesController = new ListServicesController(listServicesService);
+export const createOrdemServicoController = new CreateOrdemServicoController(createOrdemServicoService);
+export const listOrdemServicoController = new ListOrdemServicoController(listOrdemServicoService);
+export const pularEtapaController = new PularEtapaController(pularEtapaService);
