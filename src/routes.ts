@@ -16,6 +16,8 @@ import {
     listClientController,
     deleteClientController,
     updateClientController,
+    createServicesController,
+    listServicesController
 
 } from './controllers';
 
@@ -39,6 +41,8 @@ const initializeRoutes = (): Router => {
     router.get('/cliente/listar', isAuthenticated, listClientController.handle.bind(listClientController));
     router.delete('/cliente/delete/:id', isAuthenticated, deleteClientController.handle.bind(deleteClientController));
     router.put('/cliente/update/:id', isAuthenticated, updateClientController.handle.bind(updateClientController));
+    router.get('/servicos/criar', isAuthenticated, createServicesController.handle.bind(createServicesController));
+    router.post('/cliente/listar', isAuthenticated, listServicesController.handle.bind(listServicesController));
 
     return router;
 };

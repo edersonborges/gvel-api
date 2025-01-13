@@ -12,7 +12,8 @@ import { CreateClientController } from './cliente/CreateClientController';
 import { ListClientController } from './cliente/ListClientController';
 import { DeleteClientController } from './cliente/DeleteClientController';
 import { UpdateClientController } from './cliente/UpdateClientController';
-
+import { CreateServicesController } from './servicos/CreateServicesController';
+import { ListServicesController } from './servicos/ListServicesController';
 
 
 
@@ -30,6 +31,8 @@ import { CreateClientService } from '../services/cliente/CreateClientService';
 import { ListClientService } from '../services/cliente/ListClientService';
 import { DeleteClientService } from '../services/cliente/DeleteClientService';
 import { UpdateClientService } from '../services/cliente/UpdateClientService';
+import { CreateServicesService } from '../services/servicos/CreateServicesService'; 
+import { ListServicesService } from '../services/servicos/ListServicesService';
 
 
 
@@ -47,6 +50,8 @@ const createClientService = new CreateClientService();
 const listClientService = new ListClientService();
 const deleteClientService = new DeleteClientService();
 const updateClientService = new UpdateClientService();
+const createServicesService = new CreateServicesService();
+const listServicesService = new ListServicesService();
 
 
 
@@ -64,3 +69,5 @@ export const createClientController = new CreateClientController(createClientSer
 export const listClientController = new ListClientController(listClientService);
 export const deleteClientController = new DeleteClientController(deleteClientService);
 export const updateClientController = new UpdateClientController(updateClientService);
+export const createServicesController = new CreateServicesController(createServicesService);
+export const listServicesController = new ListServicesController(listServicesService);
