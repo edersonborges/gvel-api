@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { ChangePswService } from '../../services/users/ChangePswService';
-import { serializeBigInt } from '../../utils/serializeBigInt';
 
 class ChangePswController {
     private changePswService: ChangePswService;
@@ -10,17 +9,20 @@ class ChangePswController {
     }
 
     async handle(req: Request, res: Response) {
+        const { id } = req.params;
+        const { pswNova, pswConfirm } = req.body;
+
         try {
-            const result = await this.changePswService.execute(req);
+            // Passa um objeto com as propriedades esperadas pelo serviço
+            const result = await this.changePswService.execute({ id, pswNova, pswConfirm });
 
             if (typeof result === 'string') {
                 return res.status(400).json({ error: result });
             }
 
-            const message = serializeBigInt(result);
-            return res.json({ success: true, message });
-        } catch (error) {
-            console.error('Error in JogosController:', error);
+            return res.status(200).json(result);
+        } catch (error: any) {
+            console.error('Error in ChangePswController:', error);
             return res.status(500).json({ error: 'Internal server error' });
         }
     }

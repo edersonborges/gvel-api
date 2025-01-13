@@ -8,6 +8,10 @@ import { ListarUserDadosController } from './users/ListarUserDadosController';
 import { UploadMediaController } from './media/UploadMediaController';
 import { GerarCodPswController } from './users/GerarCodPswController';
 import { VerificarCodigoController } from './users/VerificarCodigoController';
+import { CreateClientController } from './cliente/CreateClientController';
+import { ListClientController } from './cliente/ListClientController';
+import { DeleteClientController } from './cliente/DeleteClientController';
+import { UpdateClientController } from './cliente/UpdateClientController';
 
 
 
@@ -22,7 +26,10 @@ import { ListarUserDadosService } from '../services/users/ListarUserDadosService
 import { UploadMediaService } from '../services/media/UploadMediaService';
 import { GerarCodPswService } from '../services/users/GerarCodPswService';
 import { VerificarCodigoService } from '../services/users/VerificarCodigoService';
-
+import { CreateClientService } from '../services/cliente/CreateClientService';
+import { ListClientService } from '../services/cliente/ListClientService';
+import { DeleteClientService } from '../services/cliente/DeleteClientService';
+import { UpdateClientService } from '../services/cliente/UpdateClientService';
 
 
 
@@ -36,7 +43,10 @@ const listarUserDadosService = new ListarUserDadosService();
 const uploadMediaService = new UploadMediaService();
 const gerarCodPswService = new GerarCodPswService();
 const verificarCodigoService = new VerificarCodigoService();
-
+const createClientService = new CreateClientService();
+const listClientService = new ListClientService();
+const deleteClientService = new DeleteClientService();
+const updateClientService = new UpdateClientService();
 
 
 
@@ -50,3 +60,7 @@ export const listarUserDadosController = new ListarUserDadosController(listarUse
 export const uploadMediaController = new UploadMediaController(uploadMediaService);
 export const gerarCodPswController = new GerarCodPswController(gerarCodPswService);
 export const verificarCodigoController = new VerificarCodigoController(verificarCodigoService);
+export const createClientController = new CreateClientController(createClientService);
+export const listClientController = new ListClientController(listClientService);
+export const deleteClientController = new DeleteClientController(deleteClientService);
+export const updateClientController = new UpdateClientController(updateClientService);
