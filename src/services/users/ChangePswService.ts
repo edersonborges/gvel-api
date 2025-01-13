@@ -1,12 +1,15 @@
-import { Request as ExpressRequest } from 'express';
 import prismaClient from '../../prisma';
 import { hash } from 'bcryptjs';
-import { sendEmail } from '../../utils/mailer';
+// import { sendEmail } from '../../utils/mailer'; // Descomente se for usar
+
+interface ChangePswInput {
+    id: string;
+    pswNova: string;
+    pswConfirm: string;
+}
 
 class ChangePswService {
-    async execute(req: ExpressRequest) {
-        const { id } = req.params;
-        const { pswNova, pswConfirm } = req.body;
+    async execute({ id, pswNova, pswConfirm }: ChangePswInput) {
         try {
             // Verificar se as senhas coincidem
             if (pswNova !== pswConfirm) {
@@ -18,7 +21,7 @@ class ChangePswService {
             });
 
             if (!user) {
-                return 'Usuario não existe';
+                return 'Usuário não existe';
             }
 
             // Criptografar a nova senha
@@ -30,15 +33,14 @@ class ChangePswService {
                 data: { senha: hashedPassword },
             });
 
-            // Enviar email de notificação
-            const subject = 'Senha alterada com sucesso';
-            // Substitua com seu template de email apropriado
-            // await sendEmail(user.email, subject, emailTemplate.getTemplate(), emailTemplate.getTemplateText());
+            // Enviar email de notificação (se necessário)
+            // const subject = 'Senha alterada com sucesso';
+            // await sendEmail(user.email, subject, 'Sua senha foi alterada com sucesso.', 'Sua senha foi alterada com sucesso.');
 
             return { message: 'Senha alterada com sucesso' };
         } catch (error) {
             console.error('Error in ChangePswService:', error);
-            return 'Failed to change password';
+            return 'Falha ao alterar senha';
         }
     }
 }

@@ -1,15 +1,14 @@
 import prismaClient from '../../prisma';
 
 class VerificarCodigoService {
-    async execute(userId: string, codigo: string) {
+    async execute(email: string, codigo: string) {
         try {
-            // Verificar se o código existe e está correto
-            const codigoRecuperacao = await prismaClient.rec_senha.findFirst({
+            // Verificar se o código existe, está correto e não foi usado
+            const codigoRecuperacao = await prismaClient.recSenhaToken.findFirst({
                 where: {
-                    userId: userId,
-                    codigo: Number(codigo),
-                    usado: false,  // Certifique-se de que o código ainda não foi usado
-                    deletedAt: null
+                    email: email,
+                    token: codigo,
+                    isUsed: false,
                 },
             });
 
@@ -18,9 +17,9 @@ class VerificarCodigoService {
             }
 
             // Marcar o código como usado
-            await prismaClient.rec_senha.update({
+            await prismaClient.recSenhaToken.update({
                 where: { id: codigoRecuperacao.id },
-                data: { usado: true },
+                data: { isUsed: true },
             });
 
             return { message: 'Código validado com sucesso' };

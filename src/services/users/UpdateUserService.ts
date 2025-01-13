@@ -1,18 +1,19 @@
 import { Request as ExpressRequest } from 'express';
 import prismaClient from '../../prisma';
-import { convertToDateTime } from '../../utils/convertToDateTime';
+// Removido: import { convertToDateTime } from '../../utils/convertToDateTime';
 
 class UpdateUserService {
   public async execute(req: ExpressRequest) {
     const { id } = req.params;
-    const { nome, telefone, data_nasc, tipoImagem, img_key } = req.body;
+    // Removido data_nasc da extração do corpo da requisição
+    const { nome, telefone, tipoImagem, img_key } = req.body;
 
     try {
       const data: any = {};
 
       if (nome) data.nome = nome;
       if (telefone) data.telefone = telefone;
-      if (data_nasc) data.data_nasc = await convertToDateTime(data_nasc);
+      // Removido: tratamento para data_nasc, pois não existe mais
 
       // Verificando se o usuário existe
       const existingUser = await prismaClient.usuario.findUnique({ where: { id } });
@@ -29,12 +30,12 @@ class UpdateUserService {
       // Verificando se há uma imagem associada para ser atualizada
       if (img_key) {
         const fileData = {
-          userId: id,
+          usuarioId: id,      // Ajustado para usar o campo correto da relação
           tipo: tipoImagem,
-          img_key,
+          imgKey: img_key,     // Nome do campo conforme o modelo Arquivo
         };
 
-        await prismaClient.arquivos.create({
+        await prismaClient.arquivo.create({
           data: fileData,
         });
       }

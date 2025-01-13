@@ -5,9 +5,9 @@ import { serializeBigInt } from '../../utils/serializeBigInt';
 interface CreateUserInput {
     nome: string;
     senha: string;
-    dataNasc: string;
     email: string; 
     telefone: string;
+    cpf: string;
 }
 
 class CreateUserController {
