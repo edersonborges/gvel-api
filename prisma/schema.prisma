@@ -10,13 +10,95 @@ datasource db {
 model usuario {
   id           String   @id @default(uuid()) @map("_id")
   nome         String
-  data_nasc    DateTime
   email        String   @unique
   telefone     String
   senha        String
+  cpf          String
 
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   deletedAt    DateTime?
 }
 
+
+model veiculos {
+  id           String   @id @default(uuid()) @map("_id")
+  nome         String
+  cnpj         String
+  placa        String
+  responsavel  String
+  tipo_veic    String
+  subtipo_veic String
+  status       String?
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+}
+
+model servicos {
+  id           String   @id @default(uuid()) @map("_id")
+  servico      String
+  ativo        Boolean   @default(false)
+  status       String    @default('aguardando')
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+}
+
+model arquivos {
+  id           String   @id @default(uuid()) @map("_id")
+  img_key      String
+  tipo         String?
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+}
+
+model obs_servico {
+  id           String   @id @default(uuid()) @map("_id")
+  texto        String
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+}
+
+model estoque {
+  id           String   @id @default(uuid()) @map("_id")
+  nome         String
+  quantidade   Int
+  obs          String
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+}
+
+model logs_estoque {
+  id           String   @id @default(uuid()) @map("_id")
+  data         String
+  acao         String
+  placa        String
+  responsavel  String
+  tipo_pagamento String
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+}
+
+model convites {
+  id           String   @id @default(uuid()) @map("_id")
+  nome         String
+  email        String
+  codigo       String
+  cargo        String
+  utilizado    Boolean  @default(false)
+
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+}
