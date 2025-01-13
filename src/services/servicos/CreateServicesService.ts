@@ -26,7 +26,6 @@ class CreateServicesService {
         const newService = await prismaClient.servico.create({
           data: {
             servico,
-            ativo,
             ordem: prioridade,
           },
         });
