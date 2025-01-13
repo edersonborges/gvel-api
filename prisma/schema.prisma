@@ -16,9 +16,9 @@ model Usuario {
   cpf          String
   tipo         Int          @default(1)
 
-  // Removido: veiculos     Veiculo[]    @relation("VeiculoResponsavel")
   logEstoques  LogEstoque[] @relation("LogResponsavel")
   arquivos     Arquivo[]
+  pedidos      Pedido[]     @relation("UsuarioResponsavel") 
 
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
@@ -33,7 +33,8 @@ model Cliente {
   cnpj           String
   tipo           Int            @default(1)
 
-  ordensServico  OrdemServico[] // Campo oposto para relação com OrdemServico
+  ordensServico  OrdemServico[] 
+  pedidos        Pedido[]       @relation("ClientePedido")
 
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
@@ -46,7 +47,7 @@ model Servico {
   ativo        Boolean              @default(false)
   ordem        Int
 
-  ordemItens   OrdemServicoItem[]   // Campo oposto para relação com OrdemServicoItem
+  ordemItens   OrdemServicoItem[]  
 
   createdAt    DateTime             @default(now())
   updatedAt    DateTime             @updatedAt
@@ -63,9 +64,6 @@ model Arquivo {
   
   estoque    Estoque?  @relation(fields: [estoqueId], references: [id])
   estoqueId  String?
-  
-  // Removido: veiculo    Veiculo?  @relation(fields: [veiculoId], references: [id])
-  // Removido: veiculoId  String?
 
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
@@ -88,7 +86,8 @@ model Estoque {
   obs          String
 
   arquivos     Arquivo[]
-  logEstoques  LogEstoque[]  @relation("EstoqueProduto") // Campo oposto para relação
+  logEstoques  LogEstoque[]  @relation("EstoqueProduto")
+  pedidos      Pedido[]      @relation("EstoquePedido")
 
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
@@ -99,8 +98,7 @@ model LogEstoque {
   id            String    @id @default(uuid()) @map("_id")
   data          String
   acao          String
-  placa         String
-  observacao    String
+  observacao    String?
   tipoPagamento String?
 
   responsavel   Usuario   @relation("LogResponsavel", fields: [responsavelId], references: [id])
@@ -142,8 +140,6 @@ model OrdemServico {
   clienteId       String
   dataInicio      DateTime            @default(now())
   dataFim         DateTime?
-  
-  // Novos campos para armazenar informações do veículo diretamente na ordem de serviço
   placa           String
   tipoVeiculo     String
   subtipoVeiculo  String
@@ -154,7 +150,6 @@ model OrdemServico {
   updatedAt       DateTime            @updatedAt
   deletedAt       DateTime?
 }
-
 
 model OrdemServicoItem {
   id               String         @id @default(uuid())
@@ -168,4 +163,22 @@ model OrdemServicoItem {
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   deletedAt        DateTime?
+}
+
+model Pedido {
+  id             String    @id @default(uuid())
+  estoque        Estoque   @relation("EstoquePedido", fields: [estoqueId], references: [id])
+  estoqueId      String
+  quantidade     Int
+  placa          String
+  responsavel    Usuario   @relation("UsuarioResponsavel", fields: [responsavelId], references: [id])
+  responsavelId  String
+  cliente        Cliente   @relation("ClientePedido", fields: [clienteId], references: [id])
+  clienteId      String
+  tipoPagamento  String?
+  observacao     String?
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
 }
