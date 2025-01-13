@@ -17,7 +17,10 @@ import {
     deleteClientController,
     updateClientController,
     createServicesController,
-    listServicesController
+    listServicesController,
+    createOrdemServicoController,
+    listOrdemServicoController,
+    pularEtapaController
 
 } from './controllers';
 
@@ -43,6 +46,9 @@ const initializeRoutes = (): Router => {
     router.put('/cliente/update/:id', isAuthenticated, updateClientController.handle.bind(updateClientController));
     router.get('/servicos/criar', isAuthenticated, createServicesController.handle.bind(createServicesController));
     router.post('/cliente/listar', isAuthenticated, listServicesController.handle.bind(listServicesController));
+    router.post('/ordem-servico/criar', isAuthenticated, createOrdemServicoController.handle.bind(createOrdemServicoController));
+    router.get('/ordem-servico/listar', isAuthenticated, listOrdemServicoController.handle.bind(listOrdemServicoController));
+    router.post('/ordem-servico/etapa', isAuthenticated, pularEtapaController.handle.bind(pularEtapaController));
 
     return router;
 };

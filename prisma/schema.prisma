@@ -136,6 +136,7 @@ model RecSenhaToken {
 
 model OrdemServico {
   id              String              @id @default(uuid())
+  numero          Int                 @default(autoincrement()) // Campo auto-incremento
   cliente         Cliente             @relation(fields: [clienteId], references: [id])
   clienteId       String
   dataInicio      DateTime            @default(now())
@@ -143,13 +144,12 @@ model OrdemServico {
   placa           String
   tipoVeiculo     String
   subtipoVeiculo  String
-
   servicos        OrdemServicoItem[]
-
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
   deletedAt       DateTime?
 }
+
 
 model OrdemServicoItem {
   id               String         @id @default(uuid())
@@ -159,11 +159,13 @@ model OrdemServicoItem {
   servicoId        String
   realizado        Boolean        @default(false)
   ordemPrioridade  Int
-
+  inicioEtapa      DateTime?      // Data/hora de início da etapa
+  fimEtapa         DateTime?      // Data/hora de término da etapa
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
   deletedAt        DateTime?
 }
+
 
 model Pedido {
   id             String    @id @default(uuid())
