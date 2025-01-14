@@ -17,6 +17,12 @@ import { ListServicesController } from './servicos/ListServicesController';
 import { CreateOrdemServicoController } from './ordemServico/CreateOrdemServicoController';
 import { ListOrdemServicoController } from './ordemServico/ListOrdemServicoController';
 import { PularEtapaController } from './ordemServico/PularEtapaController';
+import { CreateConviteController } from './users/CreateConviteController';
+import { CreatePecaController } from './estoque/CreatePecaController';
+import { EntradaPecaController } from './estoque/EntradaPecaController';
+import { ListPecaController } from './estoque/ListPecaController';
+import { SaidaPecaController } from './estoque/SaidaPecaController';
+import { UpdatePecaController } from './estoque/UpdatePecaController';
 
 
 
@@ -40,7 +46,12 @@ import { ListServicesService } from '../services/servicos/ListServicesService';
 import { CreateOrdemServicoService } from '../services/ordemServico/CreateOrdemServicoService';
 import { ListOrdemServicoService } from '../services/ordemServico/ListOrdemServicoService';
 import { PularEtapaService } from '../services/ordemServico/PularEtapaService';
-
+import { CreateConviteService } from '../services/users/CreateConviteService';
+import { CreatePecaService } from '../services/estoque/CreatePecaService';
+import { EntradaPecaService } from '../services/estoque/EntradaPecaService';
+import { SaidaPecaService } from '../services/estoque/SaidaPecaService';
+import { UpdatePecaService } from '../services/estoque/UpdatePecaService';
+import { ListPecaService } from '../services/estoque/ListPecaService'; 
 
 
 
@@ -63,7 +74,12 @@ const listServicesService = new ListServicesService();
 const createOrdemServicoService = new CreateOrdemServicoService();
 const listOrdemServicoService = new ListOrdemServicoService();
 const pularEtapaService = new PularEtapaService();
-
+const createConviteService = new CreateConviteService();
+const createPecaService = new CreatePecaService();
+const entradaPecaService = new EntradaPecaService();
+const saidaPecaService = new SaidaPecaService();
+const updatePecaService = new UpdatePecaService();
+const listPecaService = new ListPecaService();
 
 
 
@@ -86,3 +102,9 @@ export const listServicesController = new ListServicesController(listServicesSer
 export const createOrdemServicoController = new CreateOrdemServicoController(createOrdemServicoService);
 export const listOrdemServicoController = new ListOrdemServicoController(listOrdemServicoService);
 export const pularEtapaController = new PularEtapaController(pularEtapaService);
+export const createConviteController = new CreateConviteController(createConviteService);
+export const createPecaController = new CreatePecaController(createPecaService);
+export const entradaPecaController = new EntradaPecaController(entradaPecaService);
+export const saidaPecaController = new SaidaPecaController(saidaPecaService);
+export const updatePecaController = new UpdatePecaController(updatePecaService);
+export const listPecaController = new ListPecaController(listPecaService);

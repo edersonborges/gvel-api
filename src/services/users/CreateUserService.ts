@@ -34,7 +34,8 @@ class CreateUserService {
                     email: email,
                     utilizado: false,  // Convite ainda não utilizado
                 }
-            });
+            }); 
+            console.log(convite);
 
             if (!convite) {
                 return 'Email não possui um convite válido ou já foi utilizado.';

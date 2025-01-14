@@ -35,6 +35,7 @@ class AuthUserService {
       {
         nome: usuario.nome,
         email: usuario.email, // Incluindo email no payload
+        tipo: usuario.tipo, // Incluindo tipo
       },
       jwtSecret,
       {

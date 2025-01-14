@@ -6,15 +6,22 @@ class CreateOrdemServicoController {
 
   async handle(req: Request, res: Response) {
     try {
-      const input = req.body;
-      const result = await this.createOrdemServicoService.execute(input);
-      if (result.error) {
+      // Recebendo o corpo da requisição
+      // (clienteId, placa, tipoVeiculo, subtipoVeiculo, prazo, servicos[], imagens[])
+      const data = req.body;
+
+      const result = await this.createOrdemServicoService.execute(data);
+
+      if ('error' in result) {
+        // Se o result tiver a propriedade "error", retornamos 400
         return res.status(400).json({ error: result.error });
       }
-      return res.json(result);
+
+      // Caso contrário, retornamos 201 e o resultado
+      return res.status(201).json(result);
     } catch (error) {
-      console.error('Error in CreateOrdemServicoController:', error);
-      return res.status(500).json({ error: 'Internal server error' });
+      console.error('Erro no CreateOrdemServicoController:', error);
+      return res.status(500).json({ error: 'Erro interno do servidor' });
     }
   }
 }

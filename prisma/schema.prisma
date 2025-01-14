@@ -19,6 +19,7 @@ model Usuario {
   logEstoques  LogEstoque[] @relation("LogResponsavel")
   arquivos     Arquivo[]
   pedidos      Pedido[]     @relation("UsuarioResponsavel") 
+  ordensServico OrdemServico[] 
 
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
@@ -63,18 +64,35 @@ model Arquivo {
   estoque    Estoque?  @relation(fields: [estoqueId], references: [id])
   estoqueId  String?
 
+  ordemServicoId String?
+  ordemServico   OrdemServico? @relation(fields: [ordemServicoId], references: [id])
+
+
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   deletedAt  DateTime?
 }
 
 model ObsServico {
-  id         String   @id @default(uuid()) @map("_id")
-  texto      String
+  id               String             @id @default(uuid()) @map("_id")
+  texto            String
+  ordemServicoItem OrdemServicoItem?  @relation(fields: [ordemServicoItemId], references: [id])
+  ordemServicoItemId String?
 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  deletedAt  DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  deletedAt        DateTime?
+}
+
+model ObsOrdemServico {
+  id              String         @id @default(uuid()) @map("_id")
+  ordemServico    OrdemServico   @relation(fields: [ordemServicoId], references: [id])
+  ordemServicoId  String
+  comentario      String         // Texto do comentário
+
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  deletedAt       DateTime?
 }
 
 model Estoque {
@@ -139,11 +157,15 @@ model OrdemServico {
   clienteId       String
   dataInicio      DateTime            @default(now())
   dataFim         DateTime?
-  prazo           DateTime?           // Novo campo para prazo
+  prazo           DateTime?
   placa           String
   tipoVeiculo     String
   subtipoVeiculo  String
+  responsavelId   String?         
+  responsavel     Usuario?           @relation(fields: [responsavelId], references: [id])
   servicos        OrdemServicoItem[]
+  observacoes     ObsOrdemServico[]   // Relação com observações
+  arquivos        Arquivo[]
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
   deletedAt       DateTime?
@@ -152,16 +174,17 @@ model OrdemServico {
 
 
 model OrdemServicoItem {
-  id              String    @id @default(uuid())
-  ordemServicoId  String    @map("_ordemServicoId")
-  ordemServico    OrdemServico @relation(fields: [ordemServicoId], references: [id])
-  nomeServico     String    // Nome do serviço na época da criação
-  prioridade      Int       // Prioridade do serviço na época
-  realizado       Boolean   @default(false)
-  dataInicio      DateTime? // Quando o serviço foi iniciado
-  dataFim         DateTime? // Quando o serviço foi concluído
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  id              String         @id @default(uuid())
+  ordemServicoId  String         @map("_ordemServicoId")
+  ordemServico    OrdemServico   @relation(fields: [ordemServicoId], references: [id])
+  nomeServico     String         // Nome do serviço na época da criação
+  prioridade      Int            // Prioridade do serviço na época
+  realizado       Boolean        @default(false)
+  dataInicio      DateTime?      // Quando o serviço foi iniciado
+  dataFim         DateTime?      // Quando o serviço foi concluído
+  observacoes     ObsServico[]   // Relação com observações
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
   deletedAt       DateTime?
 }
 

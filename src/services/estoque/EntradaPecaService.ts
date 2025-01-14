@@ -3,7 +3,6 @@ import prismaClient from '../../prisma';
 interface EntradaPecaInput {
   estoqueId: string;
   acao: string;
-  placa: string;
   responsavelId: string;
   quantidade: number;
   tipoPagamento?: string;
@@ -12,7 +11,7 @@ interface EntradaPecaInput {
 
 class EntradaPecaService {
   async execute(input: EntradaPecaInput) {
-    const { estoqueId, acao, placa, responsavelId, quantidade, tipoPagamento, observacao } = input;
+    const { estoqueId, acao, responsavelId, quantidade, tipoPagamento, observacao } = input;
     try {
       // Buscar o item de peça
       const pecaItem = await prismaClient.estoque.findUnique({ where: { id: estoqueId } });
