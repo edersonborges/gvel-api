@@ -27,6 +27,7 @@ import {
     saidaPecaController,
     updatePecaController, 
     listPecaController,
+    imprimirOrdemServicoController
 
 } from './controllers';
 
@@ -62,6 +63,8 @@ const initializeRoutes = (): Router => {
     router.post('/peca/saida', saidaPecaController.handle.bind(saidaPecaController));
     router.get('/peca/listar', listPecaController.handle.bind(listPecaController));
     router.put('/peca/editar', updatePecaController.handle.bind(updatePecaController));
+
+    router.get('/imprimir/:id', imprimirOrdemServicoController.handle.bind(imprimirOrdemServicoController));
 
     return router;
 };

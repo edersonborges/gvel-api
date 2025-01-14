@@ -23,7 +23,7 @@ import { EntradaPecaController } from './estoque/EntradaPecaController';
 import { ListPecaController } from './estoque/ListPecaController';
 import { SaidaPecaController } from './estoque/SaidaPecaController';
 import { UpdatePecaController } from './estoque/UpdatePecaController';
-
+import { ImprimirOrdemServicoController } from './ordemServico/ImprimirOrdemServicoController';
 
 
 
@@ -52,6 +52,7 @@ import { EntradaPecaService } from '../services/estoque/EntradaPecaService';
 import { SaidaPecaService } from '../services/estoque/SaidaPecaService';
 import { UpdatePecaService } from '../services/estoque/UpdatePecaService';
 import { ListPecaService } from '../services/estoque/ListPecaService'; 
+import { ImprimirOrdemServicoService } from '../services/ordemServico/ImprimirOrdemServicoService';
 
 
 
@@ -80,6 +81,7 @@ const entradaPecaService = new EntradaPecaService();
 const saidaPecaService = new SaidaPecaService();
 const updatePecaService = new UpdatePecaService();
 const listPecaService = new ListPecaService();
+const imprimirOrdemServicoService = new ImprimirOrdemServicoService();
 
 
 
@@ -108,3 +110,4 @@ export const entradaPecaController = new EntradaPecaController(entradaPecaServic
 export const saidaPecaController = new SaidaPecaController(saidaPecaService);
 export const updatePecaController = new UpdatePecaController(updatePecaService);
 export const listPecaController = new ListPecaController(listPecaService);
+export const imprimirOrdemServicoController = new ImprimirOrdemServicoController(imprimirOrdemServicoService);
