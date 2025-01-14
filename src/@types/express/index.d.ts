@@ -3,6 +3,7 @@ declare namespace Express {
     id: string;
     nome: string;
     telefone: string;
+    tipo: int;
   }
 
   export interface Request {

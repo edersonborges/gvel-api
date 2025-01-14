@@ -8,6 +8,7 @@ interface Payload {
   sub: string;
   nome: string;
   telefone: string;
+  tipo: number;
 }
 
 export async function isAuthenticated(
@@ -49,6 +50,7 @@ export async function isAuthenticated(
       id: user.id,
       nome: user.nome,
       telefone: user.telefone,
+      tipo: user.tipo,
     };
 
     return next();

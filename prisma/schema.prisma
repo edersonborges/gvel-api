@@ -139,7 +139,7 @@ model OrdemServico {
   clienteId       String
   dataInicio      DateTime            @default(now())
   dataFim         DateTime?
-  prazo           DateTime?           // Novo campo para prazo
+  prazo           DateTime?
   placa           String
   tipoVeiculo     String
   subtipoVeiculo  String

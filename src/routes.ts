@@ -20,7 +20,13 @@ import {
     listServicesController,
     createOrdemServicoController,
     listOrdemServicoController,
-    pularEtapaController
+    pularEtapaController,
+    createConviteController,
+    createPecaController,
+    entradaPecaController,
+    saidaPecaController,
+    updatePecaController, 
+    listPecaController,
 
 } from './controllers';
 
@@ -44,11 +50,18 @@ const initializeRoutes = (): Router => {
     router.get('/cliente/listar', isAuthenticated, listClientController.handle.bind(listClientController));
     router.delete('/cliente/delete/:id', isAuthenticated, deleteClientController.handle.bind(deleteClientController));
     router.put('/cliente/update/:id', isAuthenticated, updateClientController.handle.bind(updateClientController));
-    router.get('/servicos/criar', isAuthenticated, createServicesController.handle.bind(createServicesController));
-    router.post('/cliente/listar', isAuthenticated, listServicesController.handle.bind(listServicesController));
+    router.post('/servicos/criar', isAuthenticated, createServicesController.handle.bind(createServicesController));
+    router.get('/servicos/listar', isAuthenticated, listServicesController.handle.bind(listServicesController));
     router.post('/ordem-servico/criar', isAuthenticated, createOrdemServicoController.handle.bind(createOrdemServicoController));
     router.get('/ordem-servico/listar', isAuthenticated, listOrdemServicoController.handle.bind(listOrdemServicoController));
     router.post('/ordem-servico/etapa', isAuthenticated, pularEtapaController.handle.bind(pularEtapaController));
+    router.post('/convite/cadastrar', createConviteController.handle.bind(createConviteController));
+
+    router.post('/peca/cadastrar', createPecaController.handle.bind(createPecaController));
+    router.post('/peca/entrada', entradaPecaController.handle.bind(entradaPecaController));
+    router.post('/peca/saida', saidaPecaController.handle.bind(saidaPecaController));
+    router.get('/peca/listar', listPecaController.handle.bind(listPecaController));
+    router.put('/peca/editar', updatePecaController.handle.bind(updatePecaController));
 
     return router;
 };
