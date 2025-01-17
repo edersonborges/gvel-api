@@ -1,11 +1,9 @@
 import { Request as ExpressRequest } from 'express';
 import prismaClient from '../../prisma';
-// Removido: import { convertToDateTime } from '../../utils/convertToDateTime';
 
 class UpdateUserService {
   public async execute(req: ExpressRequest) {
     const { id } = req.params;
-    // Removido data_nasc da extração do corpo da requisição
     const { nome, telefone, tipoImagem, img_key } = req.body;
 
     try {
@@ -13,7 +11,6 @@ class UpdateUserService {
 
       if (nome) data.nome = nome;
       if (telefone) data.telefone = telefone;
-      // Removido: tratamento para data_nasc, pois não existe mais
 
       // Verificando se o usuário existe
       const existingUser = await prismaClient.usuario.findUnique({ where: { id } });
@@ -27,21 +24,36 @@ class UpdateUserService {
         data,
       });
 
-      // Verificando se há uma imagem associada para ser atualizada
+      // Se houver um img_key fornecido, verificar e atualizar/criar registro de Arquivo
       if (img_key) {
-        const fileData = {
-          usuarioId: id,      // Ajustado para usar o campo correto da relação
-          tipo: tipoImagem,
-          imgKey: img_key,     // Nome do campo conforme o modelo Arquivo
-        };
-
-        await prismaClient.arquivo.create({
-          data: fileData,
+        // Procurar um arquivo existente para o mesmo usuário e tipo
+        const existingFile = await prismaClient.arquivo.findFirst({
+          where: {
+            usuarioId: id,
+            tipo: tipoImagem,
+          },
         });
+
+        if (existingFile) {
+          // Atualizar o imgKey do arquivo existente
+          await prismaClient.arquivo.update({
+            where: { id: existingFile.id },
+            data: { imgKey: img_key },
+          });
+        } else {
+          // Criar um novo registro de arquivo para o usuário
+          await prismaClient.arquivo.create({
+            data: {
+              usuarioId: id,
+              tipo: tipoImagem,
+              imgKey: img_key,
+            },
+          });
+        }
       }
 
       return { message: 'Usuário atualizado com sucesso', user };
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error in UpdateUserService:', error);
       return { message: 'Falha ao atualizar informações do usuário', error: error.message };
     }

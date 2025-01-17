@@ -10,6 +10,10 @@ class DeleteUserController {
     }
 
     async handle(req: Request, res: Response) {
+        const permissao = req.user.tipo
+        if (permissao != 0){
+            return res.status(401).json({ error: "Acesso não autorizado" });
+        }
         const userId = req.user_id
         try {
             const result = await this.deleteUserService.execute(userId);
