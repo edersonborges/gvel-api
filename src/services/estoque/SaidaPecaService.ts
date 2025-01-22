@@ -9,11 +9,12 @@ interface SaidaPecaInput {
   quantidade: number;
   tipoPagamento?: string;
   observacao?: string;
+  status?: string;
 }
 
 class SaidaPecaService {
   async execute(input: SaidaPecaInput) {
-    const { estoqueId, acao, placa, responsavelId, clienteId, quantidade, tipoPagamento, observacao } = input;
+    const { estoqueId, acao, placa, responsavelId, clienteId, quantidade, tipoPagamento, observacao, status } = input;
     try {
       // Buscar o item de peça
       const pecaItem = await prismaClient.estoque.findUnique({ where: { id: estoqueId } });
@@ -55,6 +56,7 @@ class SaidaPecaService {
             clienteId,
             tipoPagamento,
             observacao,
+            status
           },
         });
       });

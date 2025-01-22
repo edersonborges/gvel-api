@@ -23,6 +23,11 @@ import { EntradaPecaController } from './estoque/EntradaPecaController';
 import { ListPecaController } from './estoque/ListPecaController';
 import { SaidaPecaController } from './estoque/SaidaPecaController';
 import { UpdatePecaController } from './estoque/UpdatePecaController';
+import { ListUsersController } from './users/ListUsersController';
+import { ListarLogsPecasController } from './estoque/ListarLogsPecasService';
+import { ListarPedidoController } from './estoque/ListarPedidoController';
+import { ListarPedidoByIdController } from './estoque/ListarPedidoByIdController';
+import { AtualizarStatusPedidoController } from './estoque/AtualizarStatusPedidoController';
 
 
 
@@ -52,7 +57,11 @@ import { EntradaPecaService } from '../services/estoque/EntradaPecaService';
 import { SaidaPecaService } from '../services/estoque/SaidaPecaService';
 import { UpdatePecaService } from '../services/estoque/UpdatePecaService';
 import { ListPecaService } from '../services/estoque/ListPecaService'; 
-
+import { ListUsersService } from '../services/users/ListUsersService';
+import { ListarLogsPecasService } from '../services/estoque/ListarLogsPecasService';
+import { ListarPedidoService } from '../services/estoque/ListarPedidoService';
+import { ListarPedidoByIdService } from '../services/estoque/ListarPedidoByIdService';
+import { AtualizarStatusPedidoService } from '../services/estoque/AtualizarStatusPedidoService';
 
 
 const createUserService = new CreateUserService();
@@ -80,6 +89,11 @@ const entradaPecaService = new EntradaPecaService();
 const saidaPecaService = new SaidaPecaService();
 const updatePecaService = new UpdatePecaService();
 const listPecaService = new ListPecaService();
+const listUsersService = new ListUsersService();
+const listarLogsPecasService = new ListarLogsPecasService();
+const listarPedidoByIdService = new ListarPedidoByIdService();
+const listarPedidoService = new ListarPedidoService();
+const atualizarStatusPedidoService = new AtualizarStatusPedidoService();
 
 
 
@@ -108,3 +122,8 @@ export const entradaPecaController = new EntradaPecaController(entradaPecaServic
 export const saidaPecaController = new SaidaPecaController(saidaPecaService);
 export const updatePecaController = new UpdatePecaController(updatePecaService);
 export const listPecaController = new ListPecaController(listPecaService);
+export const listUsersController = new ListUsersController(listUsersService);
+export const listarLogsPecasController = new ListarLogsPecasController(listarLogsPecasService);
+export const listarPedidoController = new ListarPedidoController(listarPedidoService);
+export const listarPedidoByIdController = new ListarPedidoByIdController(listarPedidoByIdService);
+export const atualizarStatusPedidoController = new AtualizarStatusPedidoController(atualizarStatusPedidoService);

@@ -7,7 +7,6 @@ interface UpdateClientInput {
     email?: string;
     telefone?: string;
     cnpj?: string;
-    tipo?: number;
   };
 }
 

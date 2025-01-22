@@ -27,6 +27,11 @@ import {
     saidaPecaController,
     updatePecaController, 
     listPecaController,
+    listUsersController,
+    listarLogsPecasController,
+    listarPedidoController,
+    listarPedidoByIdController,
+    atualizarStatusPedidoController
 
 } from './controllers';
 
@@ -39,6 +44,7 @@ const initializeRoutes = (): Router => {
     router.post('/user/cadastrar', createUserController.handle.bind(createUserController));
     router.post('/login', authUserController.handle.bind(authUserController));
     router.delete('/user/delete', isAuthenticated, deleteUserController.handle.bind(deleteUserController));
+    router.get('/user/list', isAuthenticated, listUsersController.handle.bind(listUsersController));
     router.put('/user/update/:id', isAuthenticated, updateUserController.handle.bind(updateUserController));
     router.get('/logout', isAuthenticated, logoutController.handle.bind(logoutController));
     router.get('/user/dados', isAuthenticated, listarUserDadosController.handle.bind(listarUserDadosController));
@@ -62,6 +68,11 @@ const initializeRoutes = (): Router => {
     router.post('/peca/saida', saidaPecaController.handle.bind(saidaPecaController));
     router.get('/peca/listar', listPecaController.handle.bind(listPecaController));
     router.put('/peca/editar', updatePecaController.handle.bind(updatePecaController));
+
+    router.get('/pedido/listar', listarPedidoController.handle.bind(listarPedidoController));
+    router.get('/pedido-detalhe/listar/:id', listarPedidoByIdController.handle.bind(listarPedidoByIdController));
+    router.get('/logs-pecas/listar', listarLogsPecasController.handle.bind(listarLogsPecasController));
+    router.put('/pedido/status', atualizarStatusPedidoController.handle.bind(atualizarStatusPedidoController));
 
     return router;
 };
